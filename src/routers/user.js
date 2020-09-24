@@ -15,8 +15,8 @@ router.post("/users", async (req, res) => {
         await user.save()
         const token = await user.generateAuthToken()
         res.cookie('auth_token', token)
-        res.sendFile(path.resolve(__dirname, '..', 'views', 'private.html'))
-        // res.status(201).send({user, token})
+        //res.sendFile(path.resolve(__dirname, '..', 'views', 'private.html'))
+        res.status(201).send(user)
 
     } catch (error) {
         res.status(400).send(error)
@@ -29,8 +29,8 @@ router.post("/users/login", async (req, res) => {
         const user = await User.findByCredentials(req.body.email, req.body.password)
         const token = await user.generateAuthToken() 
         res.cookie('auth_token', token)
-        res.sendFile(path.resolve(__dirname, '..', 'views', 'private.html'))
-        // res.send({user, token})
+        //res.sendFile(path.resolve(__dirname, '..', 'views', 'private.html'))
+        res.status(200).send(user)
 
     } catch (e) {
         res.status(400).send(e.message)
