@@ -36,16 +36,32 @@ router.get("/tasks", auth, async (req, res) => {
             sort[filter] = order === 'desc' ? -1 : 1
         }
 
-    await req.user.populate({
+      const result = await req.user.populate({
             path: 'tasks',
             match,
             options: {
                 limit: parseInt(req.query.limit), 
-                skip: parseInt(req.query.skip),
+                skip: parseInt(req.query.limit) * (parseInt(req.query.page) - 1),
                 sort 
             },
         }).execPopulate()
         res.send(req.user.tasks)  
+
+    } catch (error) {
+        res.status(500).send(error)   
+    }
+})
+
+router.get("/tasks/total", auth, async (req, res) => {
+
+    try {
+      const result = await req.user.populate({
+            path: 'tasks'
+        }).execPopulate()
+
+        if(result) {
+            res.send(req.user.tasks)  
+        }
 
     } catch (error) {
         res.status(500).send(error)   
