@@ -6,66 +6,20 @@ const auth = require('../middleware/auth')
 const multer = require('multer')
 const sharp = require('sharp')
 const path = require('path')
-var crypto = require('crypto');
-var async = require("async");
-let transporter = require('../middleware/transporter')
-const querystring = require('querystring');  
 
 router.post("/users", async (req, res) => {
     
     try {
 
         const user = new User(req.body)
+        await user.save()
         const token = await user.generateAuthToken()
         res.cookie('auth_token', token)
         //res.sendFile(path.resolve(__dirname, '..', 'views', 'private.html'))
-        if(token) {
-            user.resetPasswordToken = token;
-            user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-            const url = `${process.env.HOSTNAME}/confirmation/${token}`;
-            let mailOptions = {
-                from: {
-                    name: 'Task Manager',
-                    address: process.env.GMAIL_USER
-                },
-                to: user.email,
-                subject: 'Confirm Your Email Address',
-                html: `<h3>Welcome to the app, ${user.name}</h3>
-                Please click the confirmation link to verify your email in order to complete the sign-up process: 
-                <a href="${url}">${url}</a>`,       
-                };
-                
-                transporter.sendMail(mailOptions, function(error, info){
-                if (error) {
-                    console.log(error);
-                } else {
-                    res.status(200).send("Success")
-                    console.log('Email sent: ' + info.response);
-                }
-                });
-        }
-        await user.save()
         res.status(201).send(user)
 
     } catch (error) {
         res.status(400).send(error)
-    }
-})
-
-router.get('/confirmation/:token', async (req, res) => {
-    try {
-        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, async function(err, user) {
-            if (!user) {
-              return res.status(404).send('Confirmation mail token is invalid or has expired.');
-            }
-            user.resetPasswordToken = ""
-            user.resetPasswordExpires = ""
-            user.confirmed = true
-            await user.save()
-            return res.redirect(`${process.env.HOSTNAME}`);
-          });   
-    } catch (error) {
-        console.log(error);
     }
 })
 
@@ -109,12 +63,7 @@ router.post("/users/logoutAll", auth, async (req, res) => {
 
 router.get("/users/me", auth, async (req, res) => {
     try {
-        
-        let user = req.user.toObject()
-        user['word'] = req.user['password']
-        delete user.tokens
-        delete user.password
-        res.send(user) 
+        res.send(req.user) 
     } catch (error) {
         res.status(500).send(error)
     }
@@ -158,9 +107,10 @@ router.delete("/users/me", auth, async (req, res) => {
 
 const profileUpload = multer({
     limits: {
-        fileSize: 2000000
+        fileSize: 1000000
     },
     fileFilter(req, file, cb) {
+
             if(!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
                 return cb(new Error('Please provide a valid image'))
             }
@@ -173,7 +123,7 @@ router.post("/users/me/avatar", auth, profileUpload.single('avatar'), async (req
         if(!req.file) {
             return res.status(400).send({error: 'Please provide a image'})
         }
-        
+
         const buffer = await sharp(req.file.buffer).resize({ width: 250, height: 250}).png().toBuffer()
         req.user.avatar = buffer 
         await req.user.save()
@@ -214,113 +164,4 @@ router.get("/users/:id/avatar", async (req, res) => {
     }
 })
 
-router.post("/users/forgot", async (req, res) => {
-    try {
-        async.waterfall([
-            function(done) {
-              crypto.randomBytes(20, function(err, buf) {
-                var token = buf.toString('hex');
-                done(err, token);
-              });
-            },
-            function(token, done) {
-              User.findOne({ email: req.body.email }, function(err, user) {
-                if(!user) {
-                    return res.status(404).send({error: 'No account with that email address exists.'})
-                }
-        
-                user.resetPasswordToken = token;
-                user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
-        
-                user.save(function(err) {
-                  done(err, token, user);
-                });
-              });
-            },
-            function(token, user, done) {
-                const url = `${process.env.HOSTNAME}/reset/${token}`;
-                let mailOptions = {
-                    from: {
-                        name: 'Task Manager',
-                        address: process.env.GMAIL_USER
-                    },
-                    to: user.email,
-                    subject: 'Password Reset',
-                    html: `<h3>Hello, ${user.name}</h3>
-
-                    A password reset event has been triggered. The password reset window is limited to one hour.
-
-                    If you do not reset your password within one hour, you will need to submit a new request.
-
-                    To complete the password reset process, visit the following link:
-
-                    <a href="${url}">${url}</a>`,       
-                  };
-                  
-                  transporter.sendMail(mailOptions, function(error, info){
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        res.status(200).send("Success")
-                        console.log('Email sent: ' + info.response);
-                    }
-                  });
-            }
-          ]);
-        
-          
-    } catch (e) {
-        res.status(400).send(e.message)
-    }
-})
-
-router.get('/reset/:token', async (req, res) => {
-    try {
-        User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
-            if (!user) {
-              return res.status(404).send('Password reset token is invalid or has expired.');
-            }
-            encodedStr = Buffer.from(req.params.token).toString('base64')
-            const query = querystring.stringify({
-                "e": encodedStr,
-                "r": user.resetPasswordToken,
-            });
-            return res.redirect(`${process.env.HOSTNAME}/resetPassword/?` + query);
-          });   
-    } catch (error) {
-        console.log(error);
-    }
-})
-
-router.patch("/resetPassword/users/me/pwd",  async (req, res) => {
-    try {
-        const updates = Object.keys(req.body);
-        const allowedUpdates = ['email', 'password']
-        const isvalidUpdate = updates.every(update => allowedUpdates.includes(update))
-
-        if(!isvalidUpdate) {
-            return  res.status(400).send({error: "Invalid Updates!"})
-        }
-
-        if(updates.length === 0) {
-            return res.status(400).send({error: "Provide some data to update"})
-        }        
-
-        const user = await User.findOne({ email: req.body.email })
-
-        if(!user) {
-            return res.status(404).send('User not found with this email');
-        }
-
-        updates.forEach(update => user[update] = req.body[update])
-        user.resetPasswordToken = ""
-        user.resetPasswordExpires = ""
-        await user.save()
-        res.status(200).send(user)
-
-    } catch (error) {
-        console.log(error);
-        res.status(400).send(error)
-    }
-})
 module.exports = router
