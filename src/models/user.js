@@ -56,6 +56,16 @@ const userSchema = new mongoose.Schema({
     }],
     avatar: {
         type: Buffer
+    },
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpires: {
+        type: Date
+    },
+    confirmed: {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true, 
@@ -86,7 +96,6 @@ userSchema.methods.toJSON = function() {
 
     delete userObject.password
     delete userObject.tokens
-    delete userObject.avatar
 
     return userObject
 }
