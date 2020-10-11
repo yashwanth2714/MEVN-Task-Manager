@@ -136,6 +136,10 @@ router.patch("/users/me", auth, async (req, res) => {
             return res.status(400).send({error: "Provide some data to update"})
         }        
 
+        const existingUser = await user.find({ email: req.user.email})
+        if(existingUser) {
+            return res.status(400).send({error: "Email already exists"})
+        }
         const user = req.user
         updates.forEach(update => user[update] = req.body[update])
         await user.save()
