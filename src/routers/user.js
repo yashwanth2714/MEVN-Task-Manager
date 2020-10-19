@@ -32,7 +32,7 @@ router.post("/users", async (req, res) => {
                 subject: 'Confirm Your Email Address',
                 html: `<h3>Welcome to the app, ${user.name}</h3>
                 Please click the confirmation link to verify your email in order to complete the sign-up process: 
-                <a href="${url}">${url}</a>`,       
+                <a href="${url}">Sign Up</a>`,       
                 };
                 
                 transporter.sendMail(mailOptions, function(error, info){
@@ -286,7 +286,7 @@ router.get('/reset/:token', async (req, res) => {
             if (!user) {
                 const url = `${process.env.HOSTNAME}/forgotPassword`;
               return res.status(404).send(`Password reset token is invalid or has expired. Please submit a new request here 
-                                           <a href="${url}">${url}</a>`);
+                                           <a href="${url}">Reset Password</a>`);
             } else {                
                 encodedStr = Buffer.from(req.params.token).toString('base64')
                 const query = querystring.stringify({
