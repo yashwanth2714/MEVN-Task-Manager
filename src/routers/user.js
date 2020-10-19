@@ -60,7 +60,7 @@ router.get('/confirmation/:token', async (req, res) => {
               await User.findOneAndDelete({ resetPasswordToken: req.params.token, resetPasswordExpires: { $lt: Date.now() } })
               const url = `${process.env.HOSTNAME}`;
               return res.status(404).send(`Confirmation mail token is invalid or has expired. \nPlease start your signup process here 
-                                                <a href="${url}">${url}</a>`);
+                                                <a href="${url}">Sign Up</a>`);
               
             } else {
                 user.resetPasswordToken = ""
