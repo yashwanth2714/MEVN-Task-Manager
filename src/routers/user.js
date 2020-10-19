@@ -55,8 +55,13 @@ router.post("/users", async (req, res) => {
 router.get('/confirmation/:token', async (req, res) => {
     try {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, async function(err, user) {
+            console.log(user);
             if (!user) {
-              return res.status(404).send('Confirmation mail token is invalid or has expired.');
+              await User.findOneAndDelete({ resetPasswordToken: req.params.token, resetPasswordExpires: { $lt: Date.now() } })
+              const url = `${process.env.HOSTNAME}`;
+              return res.status(404).send(`Confirmation mail token is invalid or has expired. \nPlease start your signup process here 
+                                                <a href="${url}">${url}</a>`);
+              
             } else {
                 user.resetPasswordToken = ""
                 user.resetPasswordExpires = ""
@@ -279,7 +284,9 @@ router.get('/reset/:token', async (req, res) => {
     try {
         User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
             if (!user) {
-              return res.status(404).send('Password reset token is invalid or has expired.');
+                const url = `${process.env.HOSTNAME}/forgotPassword`;
+              return res.status(404).send(`Password reset token is invalid or has expired. Please submit a new request here 
+                                           <a href="${url}">${url}</a>`);
             } else {                
                 encodedStr = Buffer.from(req.params.token).toString('base64')
                 const query = querystring.stringify({
