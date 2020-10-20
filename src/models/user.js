@@ -66,6 +66,10 @@ const userSchema = new mongoose.Schema({
     confirmed: {
         type: Boolean,
         default: false
+    },
+    isEmailEnabled: {
+        type: String,
+        default: "Yes"
     }
 }, {
     timestamps: true, 
