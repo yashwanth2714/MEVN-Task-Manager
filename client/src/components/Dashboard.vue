@@ -1,13 +1,13 @@
 <template>
-<div class="mainBg">
+    <div class="mainBg">
         <Header />
         <div class="container" style="margin-top: 50px !important;">
             <ListTasks :currentPageNo="current"/>
             <div class="paddingButton" style="padding-top: 70px;">
-                 <createTask />
+                <createTask />
             </div>
             <div class="customPagination" v-if="totalTasks >= 6">
-              <section>
+                <section>
                     <b-pagination
                     class="customPage"
                             :total="totalTasks"
@@ -26,7 +26,7 @@
             <editTask />
             <showTask />
         </div>
-</div>
+    </div>
 </template>
 
 <script>
@@ -104,7 +104,7 @@ export default {
 
 /* Medium devices (landscape tablets, 768px and up) */
 @media only screen and (min-width: 768px) {
-  .customPagination {
+    .customPagination {
         position: fixed !important;
     }
 } 

@@ -2,7 +2,7 @@
     <div>
         <!-- Modal Structure -->
         <div :class="['modal', open ? 'open' : '']" :style="[open ? modalStyle: '']" class="animate__animated animate__bounceIn">
-             <div class="modal-footer">
+            <div class="modal-footer">
                 <div class="btn red btn-float" @click="closeModal()"><b>X</b></div>
             </div>
             <div class="modal-content">
@@ -17,31 +17,31 @@
 <script>
 export default {
     data() {
-    return {
-      modalStyle: {
-        'z-index': 1003,
-        'display': 'block', 
-        'opacity': 1,
-        'transform': 'scaleX(1); top: 10%'
-      }
+        return {
+            modalStyle: {
+                'z-index': 1003,
+                'display': 'block', 
+                'opacity': 1,
+                'transform': 'scaleX(1); top: 10%'
+            }
+        }
+    },
+    computed: {
+        open() {
+            return this.$store.state.open
+        },
+        taskDescription() {
+            return this.$store.state.taskDescription
+        }
+    },
+    methods: {
+        closeModal() {
+            this.$store.dispatch('setTaskModal', {
+                    flag: false,
+                    taskDescription: ''
+                })
+        }
     }
-  },
-  computed: {
-      open() {
-          return this.$store.state.open
-      },
-      taskDescription() {
-          return this.$store.state.taskDescription
-      }
-  },
-  methods: {
-    closeModal() {
-        this.$store.dispatch('setTaskModal', {
-                flag: false,
-                taskDescription: ''
-            })
-    }
-  }
 }
 </script>
 

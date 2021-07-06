@@ -1,40 +1,40 @@
 <template>
-<div class="container is-flex container-custom animate__animated animate__lightSpeedInLeft">
-  <div class="card">
-    <div class="card-content card-custom">
-        <div v-if="!checkMail">        
-            <h3>Forgot Password</h3>
-            <p>To reset your password, enter your email below and submit</p>
-            <br>
-            <section>
-            <b-field>
-                <b-input placeholder="Email"
-                    size="is-medium"
-                    type="email"
-                    icon-pack="fas"
-                    icon="envelope"
-                    v-model="email"
-                    required>
-                </b-input>
-            </b-field>
-            </section>
-            <div style="text-align:center">
-                <b-button v-if="!isSendClicked" type="is-link" class="button-custom" expanded @click="sendConfirmationLink()">Reset</b-button>
-                <img :src="loadingSvg" v-if="isSendClicked" /> 
-                <h4 style="text-align: center;">
-                <router-link to="/">Back</router-link>
-                </h4>
-            </div>
-        </div>
-        <div v-if="checkMail">
-                Please check your email inbox for a link to complete the reset.
-                <h4 style="text-align: center;">Incorrect Email..?
-            <a  @click="checkMail=false">Change Here</a>
-            </h4>
-        </div>
-    </div>
-</div>
-</div>
+  <div class="container is-flex container-custom animate__animated animate__lightSpeedInLeft">
+    <div class="card">
+      <div class="card-content card-custom">
+          <div v-if="!checkMail">        
+              <h3>Forgot Password</h3>
+              <p>To reset your password, enter your email below and submit</p>
+              <br>
+              <section>
+              <b-field>
+                  <b-input placeholder="Email"
+                      size="is-medium"
+                      type="email"
+                      icon-pack="fas"
+                      icon="envelope"
+                      v-model="email"
+                      required>
+                  </b-input>
+              </b-field>
+              </section>
+              <div style="text-align:center">
+                  <b-button v-if="!isSendClicked" type="is-link" class="button-custom" expanded @click="sendConfirmationLink()">Reset</b-button>
+                  <img :src="loadingSvg" v-if="isSendClicked" /> 
+                  <h4 style="text-align: center;">
+                  <router-link to="/">Back</router-link>
+                  </h4>
+              </div>
+          </div>
+          <div v-if="checkMail">
+                  Please check your email inbox for a link to complete the reset.
+                  <h4 style="text-align: center;">Incorrect Email..?
+              <a  @click="checkMail=false">Change Here</a>
+              </h4>
+          </div>
+      </div>
+  </div>
+  </div>
 </template>
 
 

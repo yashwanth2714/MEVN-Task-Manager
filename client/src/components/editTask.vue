@@ -44,12 +44,12 @@ import TaskService from '../utils/taskRequests'
                     flag: false,
                     task: {}
                 })
-                 if(response === 'Success') {
-                     const response = await TaskService.getTasks({
+                if(response === 'Success') {
+                    const response = await TaskService.getTasks({
                         pageNo: this.$store.getters.getQueryObj.pageNo
                     });
-                     this.$store.dispatch('addTasks', response.taskData)
-                 }
+                    this.$store.dispatch('addTasks', response.taskData)
+                }
             },
             closeModal() {
                 this.$store.dispatch('setEditModal', {
@@ -58,8 +58,8 @@ import TaskService from '../utils/taskRequests'
                 })
             },
             prefill() {
-               this.description = this.task.description
-               this.completed = this.task.completed
+                this.description = this.task.description
+                this.completed = this.task.completed
             },  
             validationToast(message) {
                 this.$buefy.toast.open({
@@ -84,7 +84,7 @@ import TaskService from '../utils/taskRequests'
                     <p class="modal-card-title">Edit</p>
                 </header>
                 <section class="modal-card-body">
-   
+
                     <ckeditor :editor="editor" v-model="description" :config="editorConfig" @ready="prefill"></ckeditor>
                     <br>
                     <b-checkbox v-model="completed">Completed</b-checkbox>
@@ -102,7 +102,7 @@ import TaskService from '../utils/taskRequests'
         components: {
             ModalForm
         },
-         computed: {
+        computed: {
             isEditComponentModalActive() {
                 return this.$store.state.isEditComponentModalActive
             },

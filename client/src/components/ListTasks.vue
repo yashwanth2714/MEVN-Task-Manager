@@ -1,47 +1,47 @@
 <template>
-<div>       
-    <div class="row" v-show="tasks.length">
-        <template>
-            <div v-for="task in tasks" :key="task.id" class="animate__animated">
-              <div class="col s12 m4 animate__animated animate__backInLeft">
-                <div class="card  darken-1">
-                    <div class="card-content black-text card-text">
-                    <span class="card-title title-date" >
-                        <span class="formatDate">{{task.updatedAt | moment("MMM Do YYYY, h:mm a")}}</span>
-                        <span v-if="task.completed">
-                            <b-tooltip label="Completed"  type="is-primary">
-                                <i class="fas fa-check"></i>
-                            </b-tooltip>
+    <div>       
+        <div class="row" v-show="tasks.length">
+            <template>
+                <div v-for="task in tasks" :key="task.id" class="animate__animated">
+                <div class="col s12 m4 animate__animated animate__backInLeft">
+                    <div class="card  darken-1">
+                        <div class="card-content black-text card-text">
+                        <span class="card-title title-date" >
+                            <span class="formatDate">{{task.updatedAt | moment("MMM Do YYYY, h:mm a")}}</span>
+                            <span v-if="task.completed">
+                                <b-tooltip label="Completed"  type="is-primary">
+                                    <i class="fas fa-check"></i>
+                                </b-tooltip>
+                            </span>
+                            <span v-if="!task.completed">
+                                <b-tooltip label="Incompleted"  type="is-danger">
+                                    <i class="fas fa-times"></i>
+                                </b-tooltip>
+                            </span>
                         </span>
-                        <span v-if="!task.completed">
-                            <b-tooltip label="Incompleted"  type="is-danger">
-                                <i class="fas fa-times"></i>
-                            </b-tooltip>
-                        </span>
-                    </span>
-                        <p>{{task.description |removeSpaces | stripTags | truncate(30)}}</p>
-                    </div>
-                    <div class="card-action card-custom">
-                    <a href="#" class="btn grey" @click="showTaskModal(task.description)">Read more</a>
-                    <span>
-                        <button @click="showEditTask(task)" class="btn btn-float btn-custom">
-                            <i class="fas fa-edit"></i>
-                        </button>
-
-                        <div class="delete-form">
-                            <input type="hidden" name="_method" value="DELETE">
-                            <button type="submit" class="btn red btn-custom" @click="removeTask(task._id)">
-                                <i class="fas fa-trash"></i>
-                            </button>
+                            <p>{{task.description |removeSpaces | stripTags | truncate(30)}}</p>
                         </div>
-                    </span>
+                        <div class="card-action card-custom">
+                        <a href="#" class="btn grey" @click="showTaskModal(task.description)">Read more</a>
+                        <span>
+                            <button @click="showEditTask(task)" class="btn btn-float btn-custom">
+                                <i class="fas fa-edit"></i>
+                            </button>
+
+                            <div class="delete-form">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <button type="submit" class="btn red btn-custom" @click="removeTask(task._id)">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </div>
-            </div>
-        </template>
-  </div>
-</div>
+                </div>
+            </template>
+    </div>
+    </div>
 </template>
 
 <script>
@@ -52,8 +52,8 @@ export default {
     name: 'ListTasks',
     props: ['currentPageNo'],
     computed: {
-       ...mapState([
-             'tasks'
+        ...mapState([
+                'tasks'
         ]),
     },
     methods: {

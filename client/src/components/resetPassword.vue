@@ -1,46 +1,46 @@
 <template>
-<div class="container is-flex container-custom">
-  <div class="card animate__animated animate__swing">
-    <div class="card-content card-custom">
-      <h3>Reset Here</h3>
-        <section>
-          <b-field>
-              <b-input placeholder="Email"
-                  size="is-medium"
-                  type="email"
-                  icon-pack="fas"
-                  icon="envelope"
-                  v-model="email"
-                  required>
-              </b-input>
-          </b-field>
-          <b-field>
-              <b-input type="password"
-                  size="is-medium"
-                  placeholder="Password"
-                  password-reveal
-                  icon-pack="fas"
-                  icon="key"
-                  v-model="password1"
-                  required>
-              </b-input>
-          </b-field>
-          <b-field>
-              <b-input type="password"
-                  size="is-medium"
-                  placeholder="Re-type Password"
-                  icon-pack="fas"
-                  icon="key"
-                  v-model="password2"
-                  required>
-              </b-input>
-          </b-field>
-          <help v-show="ValidationFlag" msgType="is-danger" message="Both the passwords should match"></help>
-        </section>
-        <b-button type="is-link" class="button-custom" expanded @click="updatePassword()">Save</b-button>
-    </div>
- </div>
-</div>
+  <div class="container is-flex container-custom">
+    <div class="card animate__animated animate__swing">
+      <div class="card-content card-custom">
+        <h3>Reset Here</h3>
+          <section>
+            <b-field>
+                <b-input placeholder="Email"
+                    size="is-medium"
+                    type="email"
+                    icon-pack="fas"
+                    icon="envelope"
+                    v-model="email"
+                    required>
+                </b-input>
+            </b-field>
+            <b-field>
+                <b-input type="password"
+                    size="is-medium"
+                    placeholder="Password"
+                    password-reveal
+                    icon-pack="fas"
+                    icon="key"
+                    v-model="password1"
+                    required>
+                </b-input>
+            </b-field>
+            <b-field>
+                <b-input type="password"
+                    size="is-medium"
+                    placeholder="Re-type Password"
+                    icon-pack="fas"
+                    icon="key"
+                    v-model="password2"
+                    required>
+                </b-input>
+            </b-field>
+            <help v-show="ValidationFlag" msgType="is-danger" message="Both the passwords should match"></help>
+          </section>
+          <b-button type="is-link" class="button-custom" expanded @click="updatePassword()">Save</b-button>
+      </div>
+  </div>
+  </div>
 </template>
 
 

@@ -1,46 +1,46 @@
 <template>
-    <div>   
-        <Header />    
-      <div class="row" style="margin-top: 25px;">
-          <div class="col s12 m4"></div>
-    <div class="col s12 m4 animate__animated animate__zoomIn" >
-      <div class="card">
-        <div class="card-image">
-          <img v-if="!showDefault" :src="imgURL+'?'+getCount" style="height:300px"> 
-          <div v-show="showDefault" id="profileImage">
-              <span id="initials"></span>
-          </div>
-          <span class="card-title" style="position: relative !important;color:black;top:10px">{{user.name}}</span>
-          <form :action="imgURL + 'me/avatar'" method="post" enctype="multipart/form-data">
-            <div class="uploadBtn">
-                <b-field class="file is-primary">
-                    <b-upload class="file-label" accept="image/*" v-model="file" name="avatar">
-                        <span class="file-cta">
-                            <i class="fas fa-upload"></i>
-                        </span>
-                    </b-upload>
-                </b-field>
-            </div>
-          </form>
-          <button v-if="!showDefault" class="btn-small btn-custom" @click="deleteProfileImage()">
-            <i class="fas fa-trash"></i>
-        </button>
-        </div>
-        <div class="card-content">
-          <p>{{user.email}}</p>
-          <div class="buttons card-buttons">
-                    <button class="button is-primary editProfile" @click="$router.push('editProfile')">
-                        <strong class="edit">Edit Profile</strong>
-                    </button>
-                    <button class="button deleteProfile" @click="deleteProfile()">
-                        <strong>Delete Profile</strong>
-                    </button>
+    <div>
+        <Header />
+        <div class="row" style="margin-top: 25px;">
+            <div class="col s12 m4"></div>
+            <div class="col s12 m4 animate__animated animate__zoomIn">
+                <div class="card">
+                    <div class="card-image">
+                        <img v-if="!showDefault" :src="imgURL+'?'+getCount" style="height:300px">
+                        <div v-show="showDefault" id="profileImage">
+                            <span id="initials"></span>
+                        </div>
+                        <span class="card-title"
+                            style="position: relative !important;color:black;top:10px">{{user.name}}</span>
+                        <form :action="imgURL + 'me/avatar'" method="post" enctype="multipart/form-data">
+                            <div class="uploadBtn">
+                                <b-field class="file is-primary">
+                                    <b-upload class="file-label" accept="image/*" v-model="file" name="avatar">
+                                        <span class="file-cta">
+                                            <i class="fas fa-upload"></i>
+                                        </span>
+                                    </b-upload>
+                                </b-field>
+                            </div>
+                        </form>
+                        <button v-if="!showDefault" class="btn-small btn-custom" @click="deleteProfileImage()">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                    <div class="card-content">
+                        <p>{{user.email}}</p>
+                        <div class="buttons card-buttons">
+                            <button class="button is-primary editProfile" @click="$router.push('editProfile')">
+                                <strong class="edit">Edit Profile</strong>
+                            </button>
+                            <button class="button deleteProfile" @click="deleteProfile()">
+                                <strong>Delete Profile</strong>
+                            </button>
+                        </div>
+                    </div>
                 </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-            
     </div>
 </template>
 

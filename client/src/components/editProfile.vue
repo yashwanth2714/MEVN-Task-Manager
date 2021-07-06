@@ -1,65 +1,65 @@
 <template>
-<div>
-    <Header /> 
-    <div class="container is-flex container-custom"> 
-        <div class="card animate__animated animate__slideInUp">
-            <div class="card-content card-custom">
-                <section>
-                    <b-field label="Name" class="custom-label">
-                        <b-input v-model="name" required></b-input>
-                    </b-field>
-                    <br>
-                    <p>Email is not editable for now</p>
-                    <br>
-                    <b-field label="Email"
-                        class="custom-label">
-                        <b-input type="email"
-                            v-model="email"
-                            disabled
-                            required
-                            >
-                        </b-input>
-                    </b-field>
-                    <div class="field" style="margin-top: 20px;">
-                        <b-field label="Email Notifications" class="custom-label email-notif">
-                        <b-switch v-model="isEmailEnabled"
-                            true-value="Yes"
-                            false-value="No">
-                        </b-switch>
+    <div>
+        <Header /> 
+        <div class="container is-flex container-custom"> 
+            <div class="card animate__animated animate__slideInUp">
+                <div class="card-content card-custom">
+                    <section>
+                        <b-field label="Name" class="custom-label">
+                            <b-input v-model="name" required></b-input>
                         </b-field>
-                    </div>
-                    <br>
-                    <p>Enter your current password to update with a new one</p>
-                    <br>
-                    <b-field label="Current Password" class="custom-label">
-                        <b-input type="password"
-                            v-model="password"
-                            >
-                        </b-input>
-                    </b-field>
-                    <b-field label="New Password" class="custom-label">
-                        <b-input type="password"
-                            v-model="newPassword"
-                            :disabled="flag">
-                        </b-input>
-                    </b-field>
-                    <b-field label="Confirm New Password" class="custom-label">
-                        <b-input type="password"
-                            v-model="confirmPassword"
-                            :disabled="flag">
-                        </b-input>
-                    </b-field>
-                    <help v-show="ValidationFlag" msgType="is-danger" message="Both the passwords should match"></help>
+                        <br>
+                        <p>Email is not editable for now</p>
+                        <br>
+                        <b-field label="Email"
+                            class="custom-label">
+                            <b-input type="email"
+                                v-model="email"
+                                disabled
+                                required
+                                >
+                            </b-input>
+                        </b-field>
+                        <div class="field" style="margin-top: 20px;">
+                            <b-field label="Email Notifications" class="custom-label email-notif">
+                            <b-switch v-model="isEmailEnabled"
+                                true-value="Yes"
+                                false-value="No">
+                            </b-switch>
+                            </b-field>
+                        </div>
+                        <br>
+                        <p>Enter your current password to update with a new one</p>
+                        <br>
+                        <b-field label="Current Password" class="custom-label">
+                            <b-input type="password"
+                                v-model="password"
+                                >
+                            </b-input>
+                        </b-field>
+                        <b-field label="New Password" class="custom-label">
+                            <b-input type="password"
+                                v-model="newPassword"
+                                :disabled="flag">
+                            </b-input>
+                        </b-field>
+                        <b-field label="Confirm New Password" class="custom-label">
+                            <b-input type="password"
+                                v-model="confirmPassword"
+                                :disabled="flag">
+                            </b-input>
+                        </b-field>
+                        <help v-show="ValidationFlag" msgType="is-danger" message="Both the passwords should match"></help>
 
-                    <div class="buttons card-buttons">
-                        <b-button @click="$router.push('profile')">Cancel</b-button>
-                        <b-button type="is-primary" @click="saveProfile()">Save</b-button>
-                    </div>
-                </section>
+                        <div class="buttons card-buttons">
+                            <b-button @click="$router.push('profile')">Cancel</b-button>
+                            <b-button type="is-primary" @click="saveProfile()">Save</b-button>
+                        </div>
+                    </section>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </template>
 
 <script>
@@ -96,12 +96,12 @@ import validator from 'validator';
             async readProfile() {
                 const response = await UserService.viewProfile()
                 if(response) {
-                     this.user = response.userData
-                     this.name = this.user.name
-                     this.email = this.user.email
-                     this.hashedWord = this.user.word
-                     this.isEmailEnabled = this.user.isEmailEnabled
-                     this.isNotifChanged = this.user.isEmailEnabled
+                        this.user = response.userData
+                        this.name = this.user.name
+                        this.email = this.user.email
+                        this.hashedWord = this.user.word
+                        this.isEmailEnabled = this.user.isEmailEnabled
+                        this.isNotifChanged = this.user.isEmailEnabled
                 }
             },
             async saveProfile() {
@@ -109,7 +109,7 @@ import validator from 'validator';
                     return this.validationToast('Please fill out the required fields')
                 }
                 if(!validator.isEmail(this.email)) {
-                   return this.validationToast('Email is invalid')
+                    return this.validationToast('Email is invalid')
                 }
                 if(this.password && this.newPassword && !this.confirmPassword) {
                     return this.validationToast('Please confirm your password')
@@ -192,7 +192,7 @@ import validator from 'validator';
                 }
             },
             validationToast(message) {
-                 this.$buefy.toast.open({
+                this.$buefy.toast.open({
                     message,
                     type: 'is-danger',
                     duration: 3000
@@ -229,7 +229,7 @@ import validator from 'validator';
                 }
             }
         },
-         mounted() {
+        mounted() {
             this.readProfile()
         },
         watch: {
@@ -288,7 +288,4 @@ import validator from 'validator';
     display: flex;
     justify-content: space-between
 }
-/* .toast .is-danger .is-bottom {
-    background: orange !important;
-} */
 </style>

@@ -46,12 +46,12 @@ import TaskService from '../utils/taskRequests'
                     return this.validationToast('Something went wrong')
                 }
                 if(response) {
-                     this.$store.dispatch('setModal', false)
-                     const response = await TaskService.getTasks({
-                         pageNo: this.$store.getters.getQueryObj.pageNo
-                     });
-                     this.$store.dispatch('addTasks', response.taskData)
-                     await TaskService.getTotalTasks()
+                        this.$store.dispatch('setModal', false)
+                        const response = await TaskService.getTasks({
+                            pageNo: this.$store.getters.getQueryObj.pageNo
+                        });
+                        this.$store.dispatch('addTasks', response.taskData)
+                        await TaskService.getTotalTasks()
                 }
             },
             closeModal() {
@@ -71,7 +71,7 @@ import TaskService from '../utils/taskRequests'
                     <p class="modal-card-title">Create</p>
                 </header>
                 <section class="modal-card-body">
-   
+
                     <ckeditor :editor="editor" v-model="description" :config="editorConfig"></ckeditor>
                     <br>
                     <b-checkbox v-model="completed">Completed</b-checkbox>

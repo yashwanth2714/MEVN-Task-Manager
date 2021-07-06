@@ -1,9 +1,9 @@
 <template>
-<div class="mainBg">
-    <div class="container is-flex container-custom">
-     <component :is="component.name"></component>
-    </div>
-</div>
+  <div class="mainBg">
+      <div class="container is-flex container-custom">
+        <component :is="component.name"></component>
+      </div>
+  </div>
 </template>
 
 
