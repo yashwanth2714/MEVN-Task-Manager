@@ -1,7 +1,7 @@
 {
   "name": "task-manager",
   "version": "1.0.0",
-  "description": "",
+  "description": "Task Manager application developed using MEVN stack",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
