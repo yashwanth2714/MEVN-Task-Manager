@@ -5,7 +5,7 @@ const { ObjectID } = require('mongodb')
 const { findById, update, findOneAndDelete } = require('../models/task')
 const auth = require('../middleware/auth')
 
-router.post("/tasks", auth, async (req,res) => {
+router.post("/tasks", auth, async (req, res) => {
 
     try {
         const task = new Task({
@@ -16,7 +16,7 @@ router.post("/tasks", auth, async (req,res) => {
         res.status(201).send(task)
 
     } catch (error) {
-        res.status(400).send(error)        
+        res.status(400).send(error)
     }
 })
 
@@ -27,44 +27,44 @@ router.get("/tasks", auth, async (req, res) => {
         const match = {}
         const sort = {}
 
-        if(req.query.completed) {
-            match.completed = req.query.completed === 'true' 
+        if (req.query.completed) {
+            match.completed = req.query.completed === 'true'
         }
 
-        if(req.query.sortBy) {
+        if (req.query.sortBy) {
             const [filter, order] = req.query.sortBy.split("_")
             sort[filter] = order === 'desc' ? -1 : 1
         }
 
-      const result = await req.user.populate({
+        const result = await req.user.populate({
             path: 'tasks',
             match,
             options: {
-                limit: parseInt(req.query.limit), 
+                limit: parseInt(req.query.limit),
                 skip: parseInt(req.query.limit) * (parseInt(req.query.page) - 1),
-                sort 
+                sort
             },
         }).execPopulate()
-        res.send(req.user.tasks)  
+        res.send(req.user.tasks)
 
     } catch (error) {
-        res.status(500).send(error)   
+        res.status(500).send(error)
     }
 })
 
 router.get("/tasks/total", auth, async (req, res) => {
 
     try {
-      const result = await req.user.populate({
+        const result = await req.user.populate({
             path: 'tasks'
         }).execPopulate()
 
-        if(result) {
-            res.send(req.user.tasks)  
+        if (result) {
+            res.send(req.user.tasks)
         }
 
     } catch (error) {
-        res.status(500).send(error)   
+        res.status(500).send(error)
     }
 })
 
@@ -73,55 +73,55 @@ router.get("/tasks/:id", auth, async (req, res) => {
     try {
 
         const _id = req.params.id;
-        const task = await Task.findOne({_id, owner: req.user._id})
+        const task = await Task.findOne({ _id, owner: req.user._id })
 
-        if(!task) {
-            return res.status(404).send({error: "Not Found!"})
+        if (!task) {
+            return res.status(404).send({ error: "Not Found!" })
         }
 
         res.send(task)
 
     } catch (error) {
-        res.status(500).send(error)   
+        res.status(500).send(error)
     }
 })
 
 router.patch("/tasks/:id", auth, async (req, res) => {
-    
+
     try {
 
         const _id = req.params.id;
 
-        if(!ObjectID.isValid(_id)) {
-            return res.status(400).send({error: "Invalid Id"})
+        if (!ObjectID.isValid(_id)) {
+            return res.status(400).send({ error: "Invalid Id" })
         }
 
         const updates = Object.keys(req.body);
         const allowedUpdates = ['description', 'completed'];
         const isvalidUpdate = updates.every(update => allowedUpdates.includes(update));
-        
-        if(!isvalidUpdate) {
-            return res.status(400).send({error: "Invalid Updates!"})
+
+        if (!isvalidUpdate) {
+            return res.status(400).send({ error: "Invalid Updates!" })
         }
 
-        if(updates.length === 0) {
-            return res.status(400).send({error: "Provide some data to update"})
+        if (updates.length === 0) {
+            return res.status(400).send({ error: "Provide some data to update" })
         }
 
-        const task = await Task.findOne({_id, owner: req.user._id})
-        
-        if(!task) {
-            return res.status(404).send({error: 'Task not found'})
+        const task = await Task.findOne({ _id, owner: req.user._id })
+
+        if (!task) {
+            return res.status(404).send({ error: 'Task not found' })
         }
 
         updates.forEach(update => task[update] = req.body[update])
         await task.save()
-        res.send(task)   
+        res.send(task)
 
     } catch (error) {
         res.status(404).send(error)
     }
-    
+
 })
 
 router.delete("/tasks/:id", auth, async (req, res) => {
@@ -129,14 +129,14 @@ router.delete("/tasks/:id", auth, async (req, res) => {
 
         const _id = req.params.id;
 
-        if(!ObjectID.isValid(_id)) {
-            return res.status(400).send({ error: "Invalid Id"})
+        if (!ObjectID.isValid(_id)) {
+            return res.status(400).send({ error: "Invalid Id" })
         }
 
-        const task = await Task.findOneAndDelete({_id, owner: req.user._id})
-       
-        if(!task) {
-            return res.status(404).send({error: "Not Found!"})
+        const task = await Task.findOneAndDelete({ _id, owner: req.user._id })
+
+        if (!task) {
+            return res.status(404).send({ error: "Not Found!" })
         }
 
         res.send(task)

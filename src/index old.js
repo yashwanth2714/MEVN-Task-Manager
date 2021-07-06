@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session)
 var cors = require('cors')
-require('./db/mongoose') 
+require('./db/mongoose')
 const userRouter = require('./routers/user')
 const taskRouter = require('./routers/task')
 const cookieParser = require('cookie-parser')
@@ -23,7 +23,7 @@ app.use(cors(corsOptions))
 
 //app.use(express.static('public'))
 app.use(express.json())
-app.use(express.urlencoded( {extended: false} ))
+app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 // app.use(session({
 //     secret: 'taskManager',

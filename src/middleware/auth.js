@@ -6,9 +6,9 @@ const auth = async (req, res, next) => {
         //const token = req.header('Authorization').replace('Bearer ','')
         const token = req.cookies['auth_token']
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        const user = await User.findOne({_id:decoded._id, 'tokens.token': token })
+        const user = await User.findOne({ _id: decoded._id, 'tokens.token': token })
 
-        if(!user) {
+        if (!user) {
             throw new Error()
         }
         req.user = user
@@ -16,8 +16,8 @@ const auth = async (req, res, next) => {
         next()
 
     } catch (error) {
-        res.status(401).send({ error: 'Please authenticate.'})
+        res.status(401).send({ error: 'Please authenticate.' })
     }
-} 
+}
 
 module.exports = auth
