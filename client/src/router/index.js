@@ -21,7 +21,7 @@ const routes = [
   {
     path: '/dashboard',
     name: 'Dashboard',
-    meta: {requiresAuth: true},
+    meta: { requiresAuth: true },
     component: Dashboard
   },
   {
@@ -32,13 +32,13 @@ const routes = [
   {
     path: '/profile',
     name: 'showProfile',
-    meta: {requiresAuth: true},
+    meta: { requiresAuth: true },
     component: showProfile
   },
   {
     path: '/editProfile',
     name: 'editProfile',
-    meta: {requiresAuth: true},
+    meta: { requiresAuth: true },
     component: editProfile
   },
   {
@@ -49,7 +49,7 @@ const routes = [
   {
     path: '/resetPassword',
     name: 'resetPassword',
-    meta: {requiresReset: true},
+    meta: { requiresReset: true },
     component: resetPassword
   },
   {
@@ -65,18 +65,18 @@ const router = new VueRouter({
   routes
 })
 
-router.beforeEach((to, from , next) => {
-  if(to.matched.some(record => record.meta.requiresReset)) {
-    if(Object.keys(to.query).length === 2) {
+router.beforeEach((to, from, next) => {
+  if (to.matched.some(record => record.meta.requiresReset)) {
+    if (Object.keys(to.query).length === 2) {
       const enc = to.query.e;
       const res = to.query.r;
-      if(enc && res) {
-        if(atob(enc) == res) {
+      if (enc && res) {
+        if (atob(enc) == res) {
           next()
         } else {
           next({
             name: 'Registration'
-          }) 
+          })
         }
       }
     } else {
@@ -87,8 +87,8 @@ router.beforeEach((to, from , next) => {
   } else {
     next()
   }
-  if(to.matched.some(record => record.meta.requiresAuth)) {
-    if(!store.getters.getLoggedIn) {
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (!store.getters.getLoggedIn) {
       next({
         name: 'Registration'
       })

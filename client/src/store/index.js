@@ -17,5 +17,6 @@ export default new Vuex.Store({
   getters,
   plugins: [createPersistedState({
     paths: ['loggedIn', 'queryObj.pageNo']
-})]
+  })]
 })
+
