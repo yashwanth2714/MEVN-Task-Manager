@@ -100,7 +100,7 @@ export default {
                 this.user = response.userData
                 if("avatar" in this.user && this.user['avatar']) {
                     this.showDefault = false
-                    this.imgURL = `https://yash-task-manager14.herokuapp.com/users/${this.user._id}/avatar`
+                    this.imgURL = `${window.location.origin}/users/${this.user._id}/avatar`
                 } else {
                     const firstName = this.user.name
                     this.initials = firstName.charAt(0);
