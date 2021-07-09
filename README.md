@@ -1,3 +1,6 @@
-# Task Manager (MEVN Stack)
+<h1 align='center'>Task Manager</h1>
 
-Check the site here [Task Manager](https://yash-task-manager14.herokuapp.com/) :point_left:
+## MEVN Stack web application
+## Show some :heart: and :star: the repo, if you like the project.
+
+[Live Demo](https://yash-task-manager14.herokuapp.com/)
