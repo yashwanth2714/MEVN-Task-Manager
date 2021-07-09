@@ -11,7 +11,7 @@
 
 ``` bash
 git clone https://github.com/yashwanth2714/MEVN-Task-Manager.git
-cd Chatcord_Node-Project
+cd MEVN-Task-Manager
 npm install
 cd client
 npm install
