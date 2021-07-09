@@ -21,6 +21,15 @@ npm run dev
 # project starts
 ```
 
+#### `.env File Structure`
+
+```bash
+MONGODB_URL = your mongodb uri
+HOSTNAME =  your hostname
+JWT_SECRET = 'xxxxx'
+GMAIL_USER = your gmail id
+GMAIL_PASS = your gmail password
+```
 
 ## Show some :heart: and :star: the repo, if you like the project.
 
