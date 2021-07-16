@@ -1,6 +1,6 @@
 <h1 align='center'>Task Manager</h1>
 
-## MEVN Stack web application
+## MEVN Stack Web Application
 
 #### `Tech Stack:`
 
